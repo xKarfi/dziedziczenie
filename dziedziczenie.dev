@@ -1,62 +1,74 @@
-[Project]
-FileName=dziedziczenie.dev
-Name=dziedziczenie
-Type=1
-Ver=2
-ObjFiles=
-Includes=
-Libs=
-PrivateResource=
-ResourceIncludes=
-MakeIncludes=
-Compiler=
-CppCompiler=
-Linker=
-IsCpp=1
-Icon=
-ExeOutput=
-ObjectOutput=
-LogOutput=
-LogOutputEnabled=0
-OverrideOutput=0
-OverrideOutputName=
-HostApplication=
-UseCustomMakefile=0
-CustomMakefile=
-CommandLine=
-Folders=
-IncludeVersionInfo=0
-SupportXPThemes=0
-CompilerSet=0
-CompilerSettings=0000000000000000000000000
-UnitCount=1
+#include <iostream>
+#include <fstream>
 
-[VersionInfo]
-Major=1
-Minor=0
-Release=0
-Build=0
-LanguageID=1033
-CharsetID=1252
-CompanyName=
-FileVersion=
-FileDescription=Developed using the Dev-C++ IDE
-InternalName=
-LegalCopyright=
-LegalTrademarks=
-OriginalFilename=
-ProductName=
-ProductVersion=
-AutoIncBuildNr=0
-SyncProduct=1
+using namespace std;
 
-[Unit1]
-FileName=dziedziczenie.cpp
-CompileCpp=1
-Folder=
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
+class film 
+{
+	public:
+		ifstream p1;
+		ofstream p2;
 
+	int rok;
+	string tytul, rezyser;
+	
+	
+		void zapisz()
+		{
+			p2<<"{\"tytul\":\""<<tytul<<"\", \"rezyser\":\""<<rezyser<<"\", \"rok\":\""<<rok<<"\"}\n";
+		}
+	
+		void wczytaj()
+		{
+			p1.open("a.txt");
+			p2.open("wy.json");
+			p2<<"["<<endl;
+			while(!p1.eof())
+			{
+				p1>>tytul>>rezyser>>rok;
+				zapisz();	
+			}
+			p2<<"]";
+			p1.close();
+			p2.close();	
+		}
+		
+	
+};
+
+class film_dokumentalny : public film 
+{
+	string opis_wydarzenia;
+	public:
+		
+			void zapisz()
+		{
+			p2<<"{\"tytul\":\""<<tytul<<"\", \"rezyser\":\""<<rezyser<<"\", \"rok\":\""<<rok<<"\", \"opis_wydarzenia\":\""<<opis_wydarzenia<<"\"},\n";
+		}
+		
+		void wczytaj()
+		{
+			p1.open("c:\\a.txt");
+			p2.open("c:\\wy.json");
+			p2<<"["<<endl;
+			while(!p1.eof())
+			{
+				p1>>tytul>>rezyser>>rok>>opis_wydarzenia;
+				zapisz();	
+			}
+			p2<<"]";
+			p1.close();
+			p2.close();
+		}
+		
+	
+};
+
+
+int main() 
+{
+	film_dokumentalny f1;
+	f1.wczytaj();
+	
+	return 0;
+}
